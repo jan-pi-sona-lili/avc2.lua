@@ -1,5 +1,6 @@
 # avc2.lua
 avc2.lua is an [avc2](https://github.com/ambyshframber/avc2) emulator, written in luajit, with tweaks for löve2d.
+`avc2.love` and its sources are located in the `love` folder.
 ```
 NAME
 	avc2.lua - a luajit avc2 emulator
