@@ -8,8 +8,8 @@ SYNOPSIS
 	luajit avc2.lua ROM.avcr [DRIVE.avd]
 	luajit avc2.lua [-h|-?|--help]
 
-  love avc2.love ROM.avcr [DRIVE.avd]
-  love avc2.love [-h|-?|--help]
+	love avc2.love ROM.avcr [DRIVE.avd]
+	love avc2.love [-h|-?|--help]
 
 DESCRIPTION
 	avc2.lua is an avc2 (https://github.com/ambyshframber/avc2) emulator, written in luajit.
