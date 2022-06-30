@@ -13,7 +13,7 @@ SYNOPSIS
 	love avc2.love [-h|-?|--help]
 
 DESCRIPTION
-	avc2.lua is an avc2 (https://github.com/ambyshframber/avc2) emulator, written in luajit.
+	An avc2 (https://github.com/ambyshframber/avc2) emulator, written in luajit. avc2.love has tweaks to make it work with löve2d.
 	There are some things that should be noted for this emulator:
 	• ALL operations can accept signed values (i.e. one can JMP backwards by using a negative value). This may be changed in the future.
 	• ADC and SBC are probably broken slightly.
