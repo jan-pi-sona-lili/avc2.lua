@@ -336,17 +336,17 @@ local opcodes = setmetatable({
 	nil, --0x01
 	nil, --0x02
 	-- keep is undefined; you can ignore it for this section
-	function(r, _2)r=s(r)r.pop() if _2 then r.pop()end end, -- POP 0x03
-	function(r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()r.push2(b,a)r.push2(d,c)else r.push2(a,b)end end, --SWP 0x04
-	function(r, _2)r=s(r)local a,b,c=r.pop3()if _2 then local d,e,f=r.pop3()r.push2(d,c)r.push2(f,e)r.push2(b,a)else r.push3(b,c,a)end end, --ROT 0x05
-	function(r, _2)r=s(r)local a=r.pop()if _2 then local b=r.pop()r.push2(b,a)r.push2(b,a)else r.push2(a,a)end end, --DUP 0x06
-	function(r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()r.push2(d,c)r.push2(b,a)r.push2(d,c) else r.push3(b,a,b)end end, --OVR 0x07
+	function(k, r, _2)r=s(r)r.pop() if _2 then r.pop()end end, -- POP 0x03
+	function(k, r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()r.push2(b,a)r.push2(d,c)else r.push2(a,b)end end, --SWP 0x04
+	function(k, r, _2)r=s(r)local a,b,c=r.pop3()if _2 then local d,e,f=r.pop3()r.push2(d,c)r.push2(f,e)r.push2(b,a)else r.push3(b,c,a)end end, --ROT 0x05
+	function(k, r, _2)r=s(r)local a=r.pop()if _2 then local b=r.pop()r.push2(b,a)r.push2(b,a)else r.push2(a,a)end end, --DUP 0x06
+	function(k, r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()r.push2(d,c)r.push2(b,a)r.push2(d,c) else r.push3(b,a,b)end end, --OVR 0x07
 
 	function(k, r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()if k then r.push2(d,c)r.push2(b,a)end r.push(bor(lshift(a,8),b) == bor(lshift(c,8),d) and 0xff or 0)else if k then r.push2(b,a)end r.push((a==b) and 0xff or 0x0)end end, --EQU 0x08
 	function(k, r, _2)r=s(r)local a,b=r.pop2()if _2 then local c,d=r.pop2()if k then r.push2(d,c)r.push2(b,a)end r.push(bor(lshift(c,8),d) > bor(lshift(a,8),b) and 0xff or 0)else if k then r.push2(b,a)end r.push(b>a and 0xff or 0)end end, --GTH 0x09
 	function(k, r, _2)r=s(r)local a=r.pop()if _2 then local b=r.pop()if k then r.push2(b,a) end pc=(bor(lshift(a,8),b)-1)else if k then r.push(a)end pc=(pc+a-1)end end, --JMP 0x0a FIXED
 	function(k, r, _2)r=s(r)local a,b=r.pop2()if _2 then local c=r.pop()pc=(c~=0 and(bor(lshift(a,8),b)-1)or pc)if k then r.push3(c,b,a)end else pc=(b~=0 and(pc+a-1)or pc)if k then r.push2(b,a)end end end, --JNZ 0x0b FIXED
-	function(k, r, _2)local R=s(not r)r=s(r)local a=r.pop()if _2 then local b=r.pop()if k then r.push2(b,a)end R.push2(band(pc,0xff),rshift(band(pc,0xff00),8))pc=(bor(lshift(a,8),b)-1)else if k then r.push(a)end R.push2(band(pc,0xff),rshift(band(pc,0xff00),8))pc=(pc+a-1)end end, --JSR 0x0c FIXED
+	function(k, r, _2)local R=s(not r)r=s(r)local a=r.pop()if _2 then local b=r.pop()if k then r.push2(b,a)end R.push2(band(pc,0xff)+1,rshift(band(pc,0xff00),8))pc=bor(lshift(a,8),b)-1 else if k then r.push(a)end R.push2(band(pc,0xff)+1,rshift(band(pc,0xff00),8))pc=pc+a-1 end end, --JSR 0x0c FIXED
 	function(k, r, _2)local R=s(not r)r=s(r)local a=r.pop()if _2 then local b=r.pop()if k then r.push2(b,a)end R.push2(b,a)else if k then r.push(a)end R.push(a)end end, --STH 0x0d
 	nil, --0x0e
 	nil, --0x0f
